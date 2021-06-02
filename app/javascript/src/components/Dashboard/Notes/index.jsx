@@ -60,6 +60,26 @@ const Notes = () => {
               onClick: () => setShowDeleteAlert(true),
               disabled: !selectedNoteIds.length,
             }}
+            sortProps={{
+              options: [
+                {
+                  value: "title",
+                  label: "Title",
+                },
+                {
+                  value: "tags",
+                  label: "Tags",
+                },
+              ],
+              onClick: () => {},
+            }}
+            paginationProps={{
+              count: 241,
+              pageNo: 1,
+              pageSize: 50,
+              navigate: () => {},
+            }}
+            toggleFilter={() => {}}
           />
           <NoteTable
             selectedNoteIds={selectedNoteIds}

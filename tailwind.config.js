@@ -29,7 +29,14 @@ module.exports = {
           800: "#262F5F",
           900: "#192040",
         },
+        grey: {
+          tableTitle: '#63686F',
+        },
       },
+    },
+    fontSize: {
+      tableTitle: ['12px', '12px'],
+      tableContent: ['14px', '14px'],
     }
   },
   variants: {
