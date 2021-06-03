@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import notesApi from "apis/notes";
 import { Button, PageLoader } from "neetoui";
 import EmptyState from "components/Common/EmptyState";
@@ -32,6 +32,19 @@ const Notes = () => {
       setLoading(false);
     }
   };
+
+  const onNoteDelete = useCallback(() => {
+    setShowDeleteAlert(true);
+  }, []);
+
+  const resetSelectedNoteIds = useCallback(() => {
+    setSelectedNoteIds([]);
+  }, []);
+
+  const onCloseDeleteAlert = useCallback(() => {
+    setShowDeleteAlert(false);
+    resetSelectedNoteIds();
+  }, []);
 
   if (loading) {
     return <PageLoader />;
@@ -85,6 +98,7 @@ const Notes = () => {
             selectedNoteIds={selectedNoteIds}
             setSelectedNoteIds={setSelectedNoteIds}
             notes={notes}
+            onNoteDelete={onNoteDelete}
           />
         </>
       ) : (
@@ -104,7 +118,7 @@ const Notes = () => {
       {showDeleteAlert && (
         <DeleteAlert
           selectedNoteIds={selectedNoteIds}
-          onClose={() => setShowDeleteAlert(false)}
+          onClose={onCloseDeleteAlert}
           refetch={fetchNotes}
         />
       )}
