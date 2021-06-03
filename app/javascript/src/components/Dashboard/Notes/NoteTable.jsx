@@ -12,6 +12,7 @@ export default function NoteTable({
   selectedNoteIds,
   setSelectedNoteIds,
   notes = [],
+  onNoteDelete,
 }) {
   return (
     <div className="w-full px-4">
@@ -107,25 +108,31 @@ export default function NoteTable({
                 <td>
                   <Avatar className="my-0 mx-auto" contact={contact} />
                 </td>
-                <td className="hidden group-hover:flex">
-                  <Tooltip
-                    content="Edit"
-                    className="inline-block flex-none"
-                    position="bottom"
-                  >
-                    <Button style="icon" icon="ri-pencil-line" />
-                  </Tooltip>
-                  <Tooltip
-                    content="Delete"
-                    className="inline-block flex-none"
-                    position="bottom"
-                  >
-                    <Button
-                      style="icon"
-                      icon="ri-delete-bin-line"
-                      className="inline-block mx-2.5"
-                    />
-                  </Tooltip>
+                <td>
+                  <div className="hidden group-hover:flex">
+                    <Tooltip
+                      content="Edit"
+                      className="inline-block flex-none"
+                      position="bottom"
+                    >
+                      <Button style="icon" icon="ri-pencil-line" />
+                    </Tooltip>
+                    <Tooltip
+                      content="Delete"
+                      className="inline-block flex-none"
+                      position="bottom"
+                    >
+                      <Button
+                        style="icon"
+                        icon="ri-delete-bin-line"
+                        className="inline-block mx-2.5"
+                        onClick={() => {
+                          setSelectedNoteIds([note.id]);
+                          onNoteDelete();
+                        }}
+                      />
+                    </Tooltip>
+                  </div>
                 </td>
               </tr>
             );
