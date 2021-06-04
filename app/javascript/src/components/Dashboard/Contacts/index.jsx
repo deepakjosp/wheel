@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Button, PageLoader } from "neetoui";
+import { Header, SubHeader } from "neetoui/layouts";
 import EmptyState from "components/Common/EmptyState";
 import EmptyNotesListImage from "images/EmptyNotesList";
-import { Header, SubHeader } from "neetoui/layouts";
 import dummyContacts from "constants/contacts";
 
 import ContactTable from "./ContactTable";
