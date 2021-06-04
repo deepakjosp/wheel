@@ -1,12 +1,7 @@
 import React from "react";
 import { Avatar, Badge, Button, Checkbox, Tooltip } from "neetoui";
+import { issueTypeBadgeColors } from "constants/notes";
 import format from "date-fns/format";
-
-const issueTypeBadgeColors = {
-  internal: "blue",
-  agile: "green",
-  bug: "red",
-};
 
 export default function NoteTable({
   selectedNoteIds,
@@ -16,10 +11,10 @@ export default function NoteTable({
 }) {
   return (
     <div className="w-full px-4">
-      <table className="nui-table nui-table--checkbox table-fixed">
+      <table className="nui-table nui-table--checkbox nui-table--layout-fixed nui-table--hover nui-table--actions">
         <thead>
-          <tr>
-            <th className="w:auto text-tableTitle">
+          <tr className="text-left">
+            <th>
               <Checkbox
                 checked={
                   selectedNoteIds.length === notes.map(note => note.id).length
@@ -34,25 +29,13 @@ export default function NoteTable({
                 }}
               />
             </th>
-            <th className="text-left w-1/6 text-grey-tableTitle text-tableTitle">
-              Title
-            </th>
-            <th className="text-left w-1/5 text-grey-tableTitle text-tableTitle">
-              Description
-            </th>
-            <th className="text-center w:auto text-grey-tableTitle text-tableTitle">
-              Tags
-            </th>
-            <th className="text-center w:auto text-grey-tableTitle text-tableTitle">
-              Created Date
-            </th>
-            <th className="text-center w:auto text-grey-tableTitle text-tableTitle">
-              Due Date
-            </th>
-            <th className="text-center w:auto text-grey-tableTitle text-tableTitle">
-              Contact
-            </th>
-            <th className="text-center w-1/12 text-grey-tableTitle text-tableTitle"></th>
+            <th>Title</th>
+            <th className="w-1/5">Description</th>
+            <th>Tags</th>
+            <th>Created Date</th>
+            <th>Due Date</th>
+            <th>Contact</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -69,7 +52,7 @@ export default function NoteTable({
             return (
               <tr
                 key={note.id}
-                className={"group cursor-pointer bg-white hover:bg-gray-50"}
+                className="cursor-pointer bg-white hover:bg-gray-50"
               >
                 <td>
                   <Checkbox
@@ -89,50 +72,32 @@ export default function NoteTable({
                   />
                 </td>
                 <td>
-                  <div className="flex flex-row items-center justify-start text-gray-900">
-                    <a className="text-tableContent">{note.title}</a>
-                  </div>
+                  <Button type="link" style="link" label={note.title} />
                 </td>
-                <td className="truncate w-1/5 text-tableContent text-coolGray-700">
-                  {note.description}
-                </td>
-                <td className="text-tableContent text-center text-coolGray-700">
+                <td className="truncate w-1/5">{note.description}</td>
+                <td>
                   <Badge color={badgeColor}>Internal</Badge>
                 </td>
-                <td className="text-tableContent text-center text-coolGray-700">
-                  {createdDate}
-                </td>
-                <td className="text-tableContent text-center text-coolGray-700">
-                  {dueDate}
-                </td>
+                <td>{createdDate}</td>
+                <td>{dueDate}</td>
                 <td>
-                  <Avatar className="my-0 mx-auto" contact={contact} />
+                  <Avatar contact={contact} />
                 </td>
-                <td>
-                  <div className="hidden group-hover:flex">
-                    <Tooltip
-                      content="Edit"
-                      className="inline-block flex-none"
-                      position="bottom"
-                    >
-                      <Button style="icon" icon="ri-pencil-line" />
-                    </Tooltip>
-                    <Tooltip
-                      content="Delete"
-                      className="inline-block flex-none"
-                      position="bottom"
-                    >
-                      <Button
-                        style="icon"
-                        icon="ri-delete-bin-line"
-                        className="inline-block mx-2.5"
-                        onClick={() => {
-                          setSelectedNoteIds([note.id]);
-                          onNoteDelete();
-                        }}
-                      />
-                    </Tooltip>
-                  </div>
+                <td className="flex">
+                  <Tooltip content="Edit" position="bottom">
+                    <Button style="icon" icon="ri-pencil-line" />
+                  </Tooltip>
+                  <Tooltip content="Delete" position="bottom">
+                    <Button
+                      style="icon"
+                      icon="ri-delete-bin-line"
+                      className="ml-2.5"
+                      onClick={() => {
+                        setSelectedNoteIds([note.id]);
+                        onNoteDelete();
+                      }}
+                    />
+                  </Tooltip>
                 </td>
               </tr>
             );
