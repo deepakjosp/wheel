@@ -1,4 +1,6 @@
-export default [
+import * as yup from "yup";
+
+export const contacts = [
   {
     id: "5846499e-c369-11eb-8529-0242ac130003",
     name: "Neeraj Singh",
@@ -34,3 +36,25 @@ export default [
 ];
 
 export const phoneRegularExpression = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+export const newContactInitialValues = {
+  name: "",
+  email: "",
+  contactNumber: "",
+  department: "",
+  addToBaseCamp: false,
+};
+
+export const newContactValidationScehema = yup.object({
+  name: yup.string().required("Name is required"),
+  email: yup
+    .string()
+    .email("Email should be valid email")
+    .required("Email is required"),
+  contactNumber: yup
+    .string()
+    .matches(phoneRegularExpression, "Contact number is not valid")
+    .required("Contact number is required"),
+  department: yup.string().required("Department is required"),
+  addToBaseCamp: yup.boolean(),
+});

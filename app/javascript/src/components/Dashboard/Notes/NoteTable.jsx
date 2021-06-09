@@ -1,7 +1,9 @@
 import React from "react";
 import { Avatar, Badge, Button, Checkbox, Tooltip } from "neetoui";
-import { issueTypeBadgeColors } from "constants/notes";
 import format from "date-fns/format";
+
+import { issueTypeBadgeColors } from "./constants";
+``;
 
 export default function NoteTable({
   selectedNoteIds,
@@ -13,7 +15,7 @@ export default function NoteTable({
     <div className="w-full px-4">
       <table className="nui-table nui-table--checkbox nui-table--layout-fixed nui-table--hover nui-table--actions">
         <thead>
-          <tr className="text-left">
+          <tr>
             <th>
               <Checkbox
                 checked={
