@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Avatar, Button, Checkbox, Tooltip } from "neetoui";
+
+import DeleteAlert from "./DeleteAlert";
 
 export default function ContactTable({
   selectedContactIds,
-  setSelectedContactIds,
   contacts = [],
-  onContactDelete,
+  setSelectedContactIds,
 }) {
+  const [showDeleteContact, setShowDeleteContact] = useState(false);
+  const onContactDelete = useCallback(() => {
+    setShowDeleteContact(true);
+  }, []);
+
   return (
     <div className="w-full px-4">
-      <table className="nui-table nui-table--checkbox nui-table--actions">
+      <table className="nui-table nui-table--checkbox nui-table--actions nui-table--hover nui-table--avatar">
         <thead>
-          <tr className="text-left">
-            <th className="w:auto text-tableTitle">
+          <tr>
+            <th>
               <Checkbox
                 checked={
                   selectedContactIds.length ===
@@ -39,10 +45,7 @@ export default function ContactTable({
         <tbody>
           {contacts.map(contact => {
             return (
-              <tr
-                key={contact.id}
-                className={"cursor-pointer bg-white hover:bg-gray-50"}
-              >
+              <tr key={contact.id}>
                 <td>
                   <Checkbox
                     checked={selectedContactIds.includes(contact.id)}
@@ -85,10 +88,7 @@ export default function ContactTable({
                     <Button
                       style="icon"
                       icon="ri-delete-bin-line"
-                      onClick={() => {
-                        setSelectedContactIds([contact.id]);
-                        onContactDelete();
-                      }}
+                      onClick={onContactDelete}
                     />
                   </Tooltip>
                 </td>
@@ -97,6 +97,11 @@ export default function ContactTable({
           })}
         </tbody>
       </table>
+      <DeleteAlert
+        isOpen={showDeleteContact}
+        onClose={() => setShowDeleteContact(false)}
+        handleDelete={() => setShowDeleteContact(false)}
+      />
     </div>
   );
 }

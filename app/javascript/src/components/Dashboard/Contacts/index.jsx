@@ -3,10 +3,10 @@ import { Button, PageLoader } from "neetoui";
 import { Header, SubHeader } from "neetoui/layouts";
 import EmptyState from "components/Common/EmptyState";
 import EmptyNotesListImage from "images/EmptyNotesList";
-import dummyContacts from "constants/contacts";
 
 import ContactTable from "./ContactTable";
 import NewContactPane from "./NewContactPane";
+import { contacts as dummyContacts } from "./constants";
 import DeleteAlert from "./DeleteAlert";
 
 const Contacts = () => {
@@ -31,19 +31,6 @@ const Contacts = () => {
   useEffect(() => {
     fetchContacts();
   }, []);
-
-  const onContactDelete = useCallback(() => {
-    setShowDeleteAlert(true);
-  }, []);
-
-  const resetSelectedContactIds = useCallback(() => {
-    setSelectedContactIds([]);
-  }, []);
-
-  const onCloseDeleteAlert = () => {
-    setShowDeleteAlert(false);
-    resetSelectedContactIds();
-  };
 
   if (loading) {
     return <PageLoader />;
@@ -99,7 +86,6 @@ const Contacts = () => {
             selectedContactIds={selectedContactIds}
             setSelectedContactIds={setSelectedContactIds}
             contacts={contacts}
-            onContactDelete={onContactDelete}
           />
         </>
       ) : (
@@ -116,13 +102,15 @@ const Contacts = () => {
         setShowPane={setShowNewContactPane}
         fetchContacts={fetchContacts}
       />
-      {showDeleteAlert && (
-        <DeleteAlert
-          selectedContactIds={selectedContactIds}
-          onClose={onCloseDeleteAlert}
-          refetch={fetchContacts}
-        />
-      )}
+      <DeleteAlert
+        isOpen={showDeleteAlert}
+        onClose={() => {
+          setShowDeleteAlert(false);
+        }}
+        handleDelete={() => {
+          setShowDeleteAlert(false);
+        }}
+      />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal } from "neetoui";
+import { Alert } from "neetoui";
 import notesApi from "apis/notes";
 
 export default function DeleteAlert({ refetch, onClose, selectedNoteIds }) {
@@ -17,37 +17,26 @@ export default function DeleteAlert({ refetch, onClose, selectedNoteIds }) {
     }
   };
   return (
-    <Modal
+    <Alert
+      icon="ri-alarm-warning-line text-red-500"
       isOpen
-      size="small"
-      autoHeight
-      showFooter
-      submitButtonProps={{
-        style: "danger",
-        label: "Continue anyway",
-        loading: deleting,
-        onClick: handleDelete,
-      }}
+      title={
+        selectedNoteIds.length === 1
+          ? "Delete Note"
+          : `Delete ${selectedNoteIds.length} notes?`
+      }
+      message={
+        selectedNoteIds.length === 1
+          ? "Are you sure you want to delete the note? All of your data will be permanently removed from our database forever. This action cannot be undone."
+          : "Are you sure you want to continue? This cannot be undone."
+      }
       onClose={onClose}
-    >
-      <div className="flex">
-        <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 bg-red-100 rounded-full">
-          <i className="text-red-500 ri-alarm-warning-fill ri-lg"></i>
-        </div>
-
-        <div className="ml-4">
-          <h3 className="mb-2 text-lg font-medium text-gray-700">
-            {selectedNoteIds.length > 1
-              ? `Delete ${selectedNoteIds.length} notes?`
-              : "Delete Note"}
-          </h3>
-          <div className="text-sm leading-5 text-gray-500">
-            {selectedNoteIds.length > 1
-              ? "Are you sure you want to continue? This cannot be undone."
-              : "Are you sure you want to delete the note? All of your data will be permanently removed from our database forever. This action cannot be undone."}
-          </div>
-        </div>
-      </div>
-    </Modal>
+      cancelButtonProps={onClose}
+      submitButtonProps={{
+        onClick: handleDelete,
+        loading: deleting,
+      }}
+      hideConfirmation={true}
+    />
   );
 }

@@ -1,11 +1,16 @@
 import React from "react";
-import * as yup from "yup";
 import { Formik, Form } from "formik";
 import { Input, Textarea, Select, Switch } from "neetoui/formik";
 import { Button } from "neetoui";
-import { issueTypes, contacts } from "constants/notes";
 import notesApi from "apis/notes";
 import DateInput from "components/formik/DateInput";
+
+import {
+  createNoteInitialValues,
+  createNoteValidation,
+  issueTypes,
+  contacts,
+} from "./constants";
 
 export default function NewNoteForm({ onClose, refetch }) {
   const handleSubmit = async values => {
@@ -20,45 +25,52 @@ export default function NewNoteForm({ onClose, refetch }) {
 
   return (
     <Formik
-      initialValues={{
-        title: "",
-        tag: "internal",
-        description: "",
-        assignedContact: contacts[0].value,
-        dueDate: new Date(),
-        doesNoteHaveDueDate: false,
-      }}
+      initialValues={createNoteInitialValues}
       onSubmit={handleSubmit}
-      validationSchema={yup.object({
-        title: yup.string().required("Title is required"),
-        tag: yup.string().required("Tag is required"),
-        description: yup.string().required("Description is required"),
-        assignedContact: yup.string().required("Assignee is a required field"),
-        doesNoteHaveDueDate: yup.boolean(),
-        dueDate: yup.string().when("doesNoteHaveDueDate", {
-          is: true,
-          then: yup.string().required("Due date is required"),
-        }),
-      })}
+      validationSchema={createNoteValidation}
     >
       {({ isSubmitting, values }) => (
-        <Form>
-          <Input label="Title" name="title" className="mb-6" />
-          <Select options={issueTypes} name="tag" className="mb-6" />
+        <Form className="space-y-6">
+          <Input
+            labelProps={{
+              className: "font-medium mb-1",
+            }}
+            placeholder="Note Title"
+            label="Note Title"
+            name="title"
+          />
+          <Select
+            labelProps={{
+              className: "font-medium mb-1",
+            }}
+            label="Tags"
+            options={issueTypes}
+            name="tag"
+          />
           <Textarea
-            label="Description"
+            labelProps={{
+              className: "font-medium mb-1",
+            }}
+            placeholder="Note Description"
+            label="Note Description"
             name="description"
             rows={8}
-            className="mb-6"
           />
-          <Select options={contacts} name="assignedContact" className="mb-6" />
+          <Select
+            label="Assigned Contact"
+            options={contacts}
+            name="assignedContact"
+          />
           <Switch
+            labelProps={{
+              className: "font-medium ml-0",
+            }}
             name="doesNoteHaveDueDate"
+            className="flex-row-reverse justify-between"
             label="Add Due Date to Note"
-            className="mb-6"
           />
           {values?.doesNoteHaveDueDate && <DateInput name="dueDate" />}
-          <div className="nui-pane__footer nui-pane__footer--absolute">
+          <div className="nui-pane__footer nui-pane__footer--absolute space-x-4">
             <Button
               onClick={onClose}
               label="Cancel"
@@ -70,7 +82,6 @@ export default function NewNoteForm({ onClose, refetch }) {
               label="Submit"
               size="large"
               style="primary"
-              className="ml-2"
               disabled={isSubmitting}
               loading={isSubmitting}
             />
