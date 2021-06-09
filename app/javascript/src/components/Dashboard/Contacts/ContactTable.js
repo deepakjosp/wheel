@@ -76,21 +76,23 @@ export default function ContactTable({
                 <td>
                   <Checkbox checked={contact.addToBaseCamp} />
                 </td>
-                <td className="flex">
-                  <Tooltip content="Edit" position="bottom">
-                    <Button
-                      className="mr-2"
-                      style="icon"
-                      icon="ri-pencil-line"
-                    />
-                  </Tooltip>
-                  <Tooltip content="Delete" position="bottom">
-                    <Button
-                      style="icon"
-                      icon="ri-delete-bin-line"
-                      onClick={onContactDelete}
-                    />
-                  </Tooltip>
+                <td>
+                  <div className="flex">
+                    <Tooltip content="Edit" position="bottom">
+                      <Button
+                        className="mr-2"
+                        style="icon"
+                        icon="ri-pencil-line"
+                      />
+                    </Tooltip>
+                    <Tooltip content="Delete" position="bottom">
+                      <Button
+                        style="icon"
+                        icon="ri-delete-bin-line"
+                        onClick={onContactDelete}
+                      />
+                    </Tooltip>
+                  </div>
                 </td>
               </tr>
             );
