@@ -85,21 +85,23 @@ export default function NoteTable({
                 <td>
                   <Avatar contact={contact} />
                 </td>
-                <td className="flex">
-                  <Tooltip content="Edit" position="bottom">
-                    <Button style="icon" icon="ri-pencil-line" />
-                  </Tooltip>
-                  <Tooltip content="Delete" position="bottom">
-                    <Button
-                      style="icon"
-                      icon="ri-delete-bin-line"
-                      className="ml-2.5"
-                      onClick={() => {
-                        setSelectedNoteIds([note.id]);
-                        onNoteDelete();
-                      }}
-                    />
-                  </Tooltip>
+                <td>
+                  <div className="flex">
+                    <Tooltip content="Edit" position="bottom">
+                      <Button style="icon" icon="ri-pencil-line" />
+                    </Tooltip>
+                    <Tooltip content="Delete" position="bottom">
+                      <Button
+                        style="icon"
+                        icon="ri-delete-bin-line"
+                        className="ml-2.5"
+                        onClick={() => {
+                          setSelectedNoteIds([note.id]);
+                          onNoteDelete();
+                        }}
+                      />
+                    </Tooltip>
+                  </div>
                 </td>
               </tr>
             );
